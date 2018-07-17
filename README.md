@@ -1,7 +1,7 @@
 # Monte Carlo Markov Kernels
 
 [![Build Status](https://travis-ci.org/awllee/MonteCarloMarkovKernels.jl.svg?branch=master)](https://travis-ci.org/awllee/MonteCarloMarkovKernels.jl)
-[![Build status](https://ci.appveyor.com/api/projects/status/ve73suox2nrlqvu9?svg=true)](https://ci.appveyor.com/project/awllee/montecarlomarkovkernels-jl)
+[![Build status](https://ci.appveyor.com/api/projects/status/15g991vjv9ce1l4w?svg=true)](https://ci.appveyor.com/project/awllee/montecarlomarkovkernels-jl)
 [![Coverage Status](https://coveralls.io/repos/github/awllee/MonteCarloMarkovKernels.jl/badge.svg?branch=master)](https://coveralls.io/github/awllee/MonteCarloMarkovKernels.jl?branch=master)
 [![codecov.io](http://codecov.io/github/awllee/MonteCarloMarkovKernels.jl/coverage.svg?branch=master)](http://codecov.io/github/awllee/MonteCarloMarkovKernels.jl?branch=master)
 
