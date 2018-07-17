@@ -3,6 +3,7 @@ using StaticArrays
 using Compat.Random
 using Compat.LinearAlgebra
 import Compat.undef
+if VERSION.minor == 7 import Statistics.mean end
 
 zero2 = [0.0, 0.0]
 μ1 = [-1.0,0.0]

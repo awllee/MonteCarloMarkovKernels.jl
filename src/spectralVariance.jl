@@ -34,7 +34,7 @@ function _wsTukeyHanning(b::Int64)
 end
 
 function _wsParzen(b::Int64, q::Int64)
-  ws::Vector{Float64} = Vector{Float64}(b)
+  ws::Vector{Float64} = Vector{Float64}(undef, b)
   for k in 1:b
     ws[k] = 1 - (k/b)^q
   end

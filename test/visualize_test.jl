@@ -1,11 +1,12 @@
 using MonteCarloMarkovKernels
 using StaticArrays
 using StatsBase
+if VERSION.minor == 7 import Statistics.mean end
 using Compat.Test
-using Plots
-Plots.gr()
+# using Plots
+# Plots.gr()
 
-savefigures = false
+# savefigures = false
 
 zero2 = [0.0, 0.0]
 μ1 = [-1.0, 0.0]
@@ -13,7 +14,7 @@ zero2 = [0.0, 0.0]
 
 Szero2 = SVector{2, Float64}(zero2)
 
-function makelogMVN{d}(μ::SVector{d, Float64}, Σ::SMatrix{d, d, Float64})
+function makelogMVN(μ::SVector{d, Float64}, Σ::SMatrix{d, d, Float64}) where d
   invΣ = inv(Σ)
   lognc = - 0.5 * d * log(2 * π) - 0.5 * logdet(Σ)
   function lpi(x::SVector{d, Float64})
@@ -47,23 +48,23 @@ d1(x) = 1/sqrt(2*π*Σ1[1,1])*exp(-1/2/Σ1[1,1]*(x-μ1[1])^2)
 d2(x) = 1/sqrt(2*π*Σ1[2,2])*exp(-1/2/Σ1[2,2]*(x-μ1[2])^2)
 
 xs, ys = kde(vs[1], P_AM(:acceptanceRate))
-plot(xs, ys)
-plot!(xs, d1.(xs), color="red")
-savefigures && savefig("kde1.png")
+# plot(xs, ys)
+# plot!(xs, d1.(xs), color="red")
+# savefigures && savefig("kde1.png")
 @test ys ≈ d1.(xs) atol=0.05
 
 xs, ys = kde(vs[2], P_AM(:acceptanceRate))
-plot(xs, ys)
-plot!(xs, d2.(xs), color="red")
-savefigures && savefig("kde2.png")
+# plot(xs, ys)
+# plot!(xs, d2.(xs), color="red")
+# savefigures && savefig("kde2.png")
 @test ys ≈ d2.(xs) atol=0.05
 
 xs, ys, f1 = kde(vs[1], vs[2], P_AM(:acceptanceRate))
-contour(xs, ys, f1)
-contour!(xs, ys, (x,y)->exp(logtarget((SVector{2,Float64}(x,y)))))
-savefigures && savefig("kde12.png")
+# contour(xs, ys, f1)
+# contour!(xs, ys, (x,y)->exp(logtarget((SVector{2,Float64}(x,y)))))
+# savefigures && savefig("kde12.png")
 
-plot(autocor(vs[1]))
-savefigures && savefig("acf1.png")
-plot(autocor(vs[2]))
-savefigures && savefig("acf2.png")
+# plot(autocor(vs[1]))
+# savefigures && savefig("acf1.png")
+# plot(autocor(vs[2]))
+# savefigures && savefig("acf2.png")

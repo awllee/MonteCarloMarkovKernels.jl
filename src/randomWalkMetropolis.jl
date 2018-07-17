@@ -5,7 +5,8 @@ using Compat.Random
 ## Makes a random walk Metropolis kernel
 function makeRWMKernel(logTargetDensity::F,
   Σ::SMatrix{d, d, Float64}) where {F<:Function, d}
-  A::SMatrix{d, d, Float64} = chol(Symmetric(Σ))'
+  # A::SMatrix{d, d, Float64} = chol(Symmetric(Σ))'
+  A::SMatrix{d, d, Float64} = mychol(Σ)
 
   scratchv::MVector{d, Float64} = MVector{d, Float64}()
   prevx::MVector{d, Float64} = MVector{d, Float64}()

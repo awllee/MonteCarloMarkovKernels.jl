@@ -2,6 +2,8 @@ using StaticArrays
 using Compat.LinearAlgebra
 using Compat.Random
 
+if VERSION.minor == 6 mul! = A_mul_B! end
+
 ## Makes an adaptive Metropolis kernel proposed by:
 ## Haario, H., Saksman, E. and Tamminen, J., 2001. An adaptive Metropolis
 ## algorithm. Bernoulli, 7(2), pp.223-242.
@@ -13,7 +15,8 @@ using Compat.Random
 function makeAMKernel(logTargetDensity::F, Σ::SMatrix{d, d, Float64},
   updateFrequency::Int64 = 1, ϵ::Float64 = 1.0) where {F<:Function, d}
   S::MMatrix{d, d, Float64} = Σ
-  A::MMatrix{d, d, Float64} = chol(Symmetric(S))'
+  # A::MMatrix{d, d, Float64} = chol(Symmetric(S))'
+  A::MMatrix{d, d, Float64} = mychol(S)
 
   scratchv::MVector{d, Float64} = MVector{d, Float64}()
   scratchz::MVector{d, Float64} = MVector{d, Float64}()
@@ -31,7 +34,8 @@ function makeAMKernel(logTargetDensity::F, Σ::SMatrix{d, d, Float64},
       S .= 5.6644 / d * covEstimate
     end
     try
-      A .= chol(Symmetric(S))'
+      # A .= chol(Symmetric(S))'
+      A .= mychol(S)
       ## quick fix as chol on SMatrix doesn't throw not pos def exceptions
       any(isnan, A) && throw(DomainError())
     catch e
@@ -42,7 +46,7 @@ function makeAMKernel(logTargetDensity::F, Σ::SMatrix{d, d, Float64},
   @inline function P(x::SVector{d, Float64})
     calls.x += 1
     randn!(scratchv)
-    A_mul_B!(scratchz, A, scratchv)
+    mul!(scratchz, A, scratchv)
     z::SVector{d, Float64} = scratchz + x
     # scratchv .= A * scratchv
     # z::SVector{d, Float64} = x + scratchv
