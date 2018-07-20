@@ -1,6 +1,6 @@
 using MonteCarloMarkovKernels
 using StaticArrays
-if VERSION.minor == 7 import Statistics.mean end
+import Compat.Statistics.mean
 import Compat.undef
 using Compat.Random
 using Compat.Test

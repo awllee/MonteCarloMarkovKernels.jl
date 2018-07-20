@@ -1,7 +1,7 @@
 using MonteCarloMarkovKernels
 using Compat.Random
 import Compat.undef
-if VERSION.minor == 7 import Statistics: mean, var end
+import Compat.Statistics: mean, var
 using Compat.Test
 
 srand(12345)

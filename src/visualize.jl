@@ -1,5 +1,5 @@
 using KernelDensity
-if VERSION.minor == 7 import Statistics.std end
+import Compat.Statistics.std
 
 function _defaultBandwidth(vs::Vector{Float64})
   return std(vs)*1.06*length(vs)^(-1/5)

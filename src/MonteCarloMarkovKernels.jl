@@ -1,10 +1,10 @@
 __precompile__()
 
 module MonteCarloMarkovKernels
+import Compat.Statistics.mean
 
 import Compat.undef
 if VERSION.minor == 7
-  import Statistics.mean
   function mychol(A)
     return cholesky(A).L
   end

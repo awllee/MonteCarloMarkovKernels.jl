@@ -1,7 +1,7 @@
 using MonteCarloMarkovKernels
 using StaticArrays
 using StatsBase
-if VERSION.minor == 7 import Statistics.mean end
+import Compat.Statistics.mean
 using Compat.Test
 
 zero2 = [0.0, 0.0]
