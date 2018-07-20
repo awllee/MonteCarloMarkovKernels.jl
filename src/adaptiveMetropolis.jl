@@ -40,7 +40,8 @@ function makeAMKernel(logTargetDensity::F, Σ::SMatrix{d, d, Float64},
       any(isnan, A) && throw(DomainError())
     catch e
       S .= Σ  * ϵ / calls.x
-      A .= chol(Symmetric(S))'
+      # A .= chol(Symmetric(S))'
+      A .= mychol(S)
     end
   end
   @inline function P(x::SVector{d, Float64})
