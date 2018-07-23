@@ -23,7 +23,7 @@ end
 logtarget = makelogMVN(SVector{2, Float64}(μ1), SMatrix{2, 2, Float64}(Σ1))
 
 niterations = 2^20
-chain = Vector{SVector{2, Float64}}(niterations)
+chain = Vector{SVector{2, Float64}}(undef, niterations)
 
 srand(12345)
 
@@ -33,7 +33,7 @@ simulateChain!(chain, P_AM, Szero2)
 @test mean(chain) ≈ μ1 atol = 0.01
 @test MonteCarloMarkovKernels.cov(chain) ≈ Σ1 atol = 0.05
 
-vs = Vector{Vector{Float64}}(2)
+vs = Vector{Vector{Float64}}(undef, 2)
 for i = 1:2
   vs[i] = (x->x[i]).(chain)
 end

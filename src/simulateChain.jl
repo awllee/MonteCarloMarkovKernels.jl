@@ -1,4 +1,3 @@
-using StaticArrays
 using ProgressMeter
 
 function simulateChain!(chain::Vector{T}, P::F, x0::T) where {F<:Function, T}

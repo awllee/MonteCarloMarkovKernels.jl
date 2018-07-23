@@ -1,9 +1,3 @@
-using StaticArrays
-using Compat.LinearAlgebra
-using Compat.Random
-
-if VERSION.minor == 6 mul! = A_mul_B! end
-
 ## Makes an adaptive Metropolis kernel proposed by:
 ## Haario, H., Saksman, E. and Tamminen, J., 2001. An adaptive Metropolis
 ## algorithm. Bernoulli, 7(2), pp.223-242.
@@ -18,9 +12,9 @@ function makeAMKernel(logTargetDensity::F, Σ::SMatrix{d, d, Float64},
   # A::MMatrix{d, d, Float64} = chol(Symmetric(S))'
   A::MMatrix{d, d, Float64} = mychol(S)
 
-  scratchv::MVector{d, Float64} = MVector{d, Float64}()
-  scratchz::MVector{d, Float64} = MVector{d, Float64}()
-  prevx::MVector{d, Float64} = MVector{d, Float64}()
+  scratchv::MVector{d, Float64} = MVector{d, Float64}(undef)
+  scratchz::MVector{d, Float64} = MVector{d, Float64}(undef)
+  prevx::MVector{d, Float64} = MVector{d, Float64}(undef)
   ldprevx = Ref(-Inf)
 
   accepts = Ref(0)
