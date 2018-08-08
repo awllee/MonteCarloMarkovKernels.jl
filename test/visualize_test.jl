@@ -25,7 +25,7 @@ logtarget = makelogMVN(SVector{2, Float64}(μ1), SMatrix{2, 2, Float64}(Σ1))
 niterations = 2^20
 chain = Vector{SVector{2, Float64}}(undef, niterations)
 
-srand(12345)
+seed!(12345)
 
 P_AM = makeAMKernel(logtarget, 2)
 simulateChain!(chain, P_AM, Szero2)

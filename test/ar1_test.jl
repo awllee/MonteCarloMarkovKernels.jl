@@ -4,7 +4,7 @@ import Compat.undef
 import Compat.Statistics: mean, var
 using Compat.Test
 
-srand(12345)
+seed!(12345)
 
 function makeAR1Kernel(c::Float64, φ::Float64, σ::Float64)
   function P(x::Float64)

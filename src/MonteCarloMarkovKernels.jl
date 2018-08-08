@@ -8,12 +8,12 @@ using Compat.Random
 import Compat.Statistics.mean
 
 import Compat: undef, UndefInitializer
-if VERSION.minor < 7
+if VERSION < v"0.7-"
   MVector{d, Float64}(::UndefInitializer) where d = MVector{d, Float64}()
   mul! = A_mul_B!
 end
 
-if VERSION.minor == 7
+if VERSION >= v"0.7-"
   function mychol(A)
     return cholesky(A).L
   end

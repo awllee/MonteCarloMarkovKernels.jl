@@ -38,7 +38,7 @@ function testd(d::Int64)
   @test maximum(abs.(MonteCarloMarkovKernels.cov(chain) - P_AM(:covEstimate))) < 0.01
 end
 
-srand(12345)
+seed!(12345)
 
 for d in 1:3
   testd(d)
