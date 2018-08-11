@@ -1,9 +1,8 @@
 using MonteCarloMarkovKernels
 using StaticArrays
-import Compat.Statistics.mean
-import Compat.undef
-using Compat.Random
-using Compat.Test
+import Statistics.mean
+using Random
+using Test
 
 function makelogMVN(μ::SVector{d, Float64}, Σ::SMatrix{d, d, Float64}) where d
   invΣ = inv(Σ)

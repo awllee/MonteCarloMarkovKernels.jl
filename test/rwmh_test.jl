@@ -1,9 +1,8 @@
 using MonteCarloMarkovKernels
 using StaticArrays
-using Compat.Random
-using Compat.LinearAlgebra
-import Compat.undef
-import Compat.Statistics.mean
+using Random
+using LinearAlgebra
+import Statistics.mean
 
 zero2 = [0.0, 0.0]
 μ1 = [-1.0,0.0]

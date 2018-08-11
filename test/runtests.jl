@@ -1,11 +1,7 @@
 using MonteCarloMarkovKernels
-using Compat.Test
+using Test
 
-if VERSION < v"0.7-"
-  seed! = srand
-else
-  import Random.seed!
-end
+import Random.seed!
 
 @testset "AR1 test" begin
   @time include("ar1_test.jl")

@@ -1,8 +1,7 @@
 using MonteCarloMarkovKernels
-using Compat.Random
-import Compat.undef
-import Compat.Statistics: mean, var
-using Compat.Test
+using Random
+import Statistics: mean, var
+using Test
 
 seed!(12345)
 

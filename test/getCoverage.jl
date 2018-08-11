@@ -1,6 +1,5 @@
 using Coverage
 
-# coverage = process_folder(ARGS[1])
 coverage = process_folder()
 
 print("Overall coverage: ")

@@ -1,5 +1,4 @@
 function estimateBM(xs::Vector{Float64}, b::Int64)
-  # n::Int64 = length(xs)
   lxs::Int64 = length(xs)
   a = floor(Int64, lxs/b)
   @assert a > 1

@@ -1,8 +1,7 @@
 ## Makes a random walk Metropolis kernel
 function makeRWMKernel(logTargetDensity::F,
   Σ::SMatrix{d, d, Float64}) where {F<:Function, d}
-  # A::SMatrix{d, d, Float64} = chol(Symmetric(Σ))'
-  A::SMatrix{d, d, Float64} = mychol(Σ)
+  A::SMatrix{d, d, Float64} = cholesky(Σ).L
 
   scratchv::MVector{d, Float64} = MVector{d, Float64}(undef)
   prevx::MVector{d, Float64} = MVector{d, Float64}(undef)

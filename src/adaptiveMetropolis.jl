@@ -9,8 +9,7 @@
 function makeAMKernel(logTargetDensity::F, Σ::SMatrix{d, d, Float64},
   updateFrequency::Int64 = 1, ϵ::Float64 = 1.0) where {F<:Function, d}
   S::MMatrix{d, d, Float64} = Σ
-  # A::MMatrix{d, d, Float64} = chol(Symmetric(S))'
-  A::MMatrix{d, d, Float64} = mychol(S)
+  A::MMatrix{d, d, Float64} = cholesky(S).L
 
   scratchv::MVector{d, Float64} = MVector{d, Float64}(undef)
   scratchz::MVector{d, Float64} = MVector{d, Float64}(undef)
@@ -28,14 +27,10 @@ function makeAMKernel(logTargetDensity::F, Σ::SMatrix{d, d, Float64},
       S .= 5.6644 / d * covEstimate
     end
     try
-      # A .= chol(Symmetric(S))'
-      A .= mychol(S)
-      ## quick fix as chol on SMatrix doesn't throw not pos def exceptions
-      any(isnan, A) && throw(DomainError())
+      A .= cholesky(S).L
     catch e
       S .= Σ  * ϵ / calls.x
-      # A .= chol(Symmetric(S))'
-      A .= mychol(S)
+      A .= cholesky(S).L
     end
   end
   @inline function P(x::SVector{d, Float64})

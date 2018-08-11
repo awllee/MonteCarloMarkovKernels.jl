@@ -1,8 +1,8 @@
 using MonteCarloMarkovKernels
 using StaticArrays
 using StatsBase
-import Compat.Statistics.mean
-using Compat.Test
+import Statistics.mean
+using Test
 
 zero2 = [0.0, 0.0]
 μ1 = [-1.0, 0.0]

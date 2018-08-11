@@ -1,5 +1,5 @@
 using KernelDensity
-import Compat.Statistics.std
+import Statistics.std
 
 function _defaultBandwidth(vs::Vector{Float64})
   return std(vs)*1.06*length(vs)^(-1/5)
@@ -13,13 +13,13 @@ function _defaultBandwidth(xs::Vector{Float64}, ys::Vector{Float64})
   return [h1, h2]
 end
 
-## can call contour(kde(vs, [acceptanceRate]))
+## can call plot(kde(vs, [acceptanceRate]))
 function kde(vs::Vector{Float64}, acceptanceRate::Float64 = 1.0)
   hDefault = _defaultBandwidth(vs)
   hAdjusted = hDefault * (2 / acceptanceRate - 1)^(0.2)
   left = minimum(vs) - 3 * hAdjusted
   right = maximum(vs) + 3 * hAdjusted
-  xs = linspace(left, right, 512)
+  xs = range(left, stop=right, length=512)
   ys = pdf(InterpKDE(KernelDensity.kde(vs; bandwidth = hAdjusted)), xs)
   return xs, ys
 end
@@ -33,8 +33,8 @@ function kde(xs::Vector{Float64}, ys::Vector{Float64},
   right = maximum(xs) + 3 * hAdjusted[1]
   bottom = minimum(ys) - 3 * hAdjusted[2]
   top = maximum(ys) + 3 * hAdjusted[2]
-  xOut = linspace(left, right, 128)
-  yOut = linspace(bottom, top, 128)
+  xOut = range(left, stop=right, length=128)
+  yOut = range(bottom, stop=top, length=128)
   ikde = InterpKDE(KernelDensity.kde((xs,ys); bandwidth = Tuple(hAdjusted)))
   function de(x, y)
     return pdf(ikde, x, y)
