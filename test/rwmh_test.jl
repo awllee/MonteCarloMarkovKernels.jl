@@ -37,3 +37,11 @@ cc = MonteCarloMarkovKernels.cov(chain)
 @test maximum(abs.(mean(chain) - μ1)) < 0.1
 @test maximum(abs.(cc - Σ1)) < 0.2
 @test 0.2 < P_RWM(:acceptanceRate) < 0.5
+
+## test that only custom RNG is used
+Random.seed!(1); v1 = rand(); Random.seed!(1)
+P_RWM = makeRWMKernel(logtarget, SpropSigma, MersenneTwister(12345))
+chain = Vector{SVector{2, Float64}}(undef, 256)
+simulateChain!(chain, P_RWM, Szero2)
+v2 = rand()
+@test v1 == v2

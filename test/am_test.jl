@@ -26,7 +26,7 @@ function testd(d::Int64)
   niterations = d*2^21
   chain = Vector{SVector{d, Float64}}(undef, niterations)
 
-  P_AM = makeAMKernel(logtarget, d, d^2)
+  P_AM = makeAMKernel(logtarget, d, Random.GLOBAL_RNG, d^2)
   simulateChain!(chain, P_AM, Szerod)
 
   @test maximum(abs.(mean(chain) - μ)) < 0.1
@@ -35,6 +35,7 @@ function testd(d::Int64)
   @test 0.234 < P_AM(:acceptanceRate) < 0.45
   @test P_AM(:meanEstimate) ≈ mean(chain) atol=0.01
   @test maximum(abs.(MonteCarloMarkovKernels.cov(chain) - P_AM(:covEstimate))) < 0.01
+
 end
 
 seed!(12345)
@@ -42,3 +43,16 @@ seed!(12345)
 for d in 1:3
   testd(d)
 end
+
+## test that only custom RNG is used
+Szerod = SVector{2, Float64}(zeros(2))
+μ = randn(2)
+A = randn(2, 2)
+Σ = A * A'
+logtarget = makelogMVN(SVector{2, Float64}(μ), SMatrix{2, 2, Float64}(Σ))
+P_AM = makeAMKernel(logtarget, 2, MersenneTwister(54321))
+chain = Vector{SVector{2, Float64}}(undef, 2^13)
+Random.seed!(1); v1 = rand(); Random.seed!(1)
+simulateChain!(chain, P_AM, Szero2)
+v2 = rand()
+@test v1 == v2
