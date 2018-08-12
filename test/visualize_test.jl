@@ -1,6 +1,5 @@
 using MonteCarloMarkovKernels
 using StaticArrays
-using StatsBase
 import Statistics.mean
 using Test
 
