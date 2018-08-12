@@ -9,6 +9,12 @@ function simulateChain!(chain::Vector{T}, P::F, x0::T) where {F<:Function, T}
   end
 end
 
+function simulateChain(P::F, x0::T, n::Int64) where {F<:Function, T}
+  chain::Vector{T} = Vector{T}(undef, n)
+  simulateChain!(chain, P, x0)
+  return chain
+end
+
 function simulateChainProgress!(chain::Vector{T}, P::F, x0::T) where
   {F<:Function, T}
   n::Int64 = length(chain)
@@ -17,6 +23,12 @@ function simulateChainProgress!(chain::Vector{T}, P::F, x0::T) where
     x = P(x)
     @inbounds chain[i] = x
   end
+  return chain
+end
+
+function simulateChainProgress(P::F, x0::T, n::Int64) where {F<:Function, T}
+  chain::Vector{T} = Vector{T}(undef, n)
+  simulateChainProgress!(chain, P, x0)
   return chain
 end
 

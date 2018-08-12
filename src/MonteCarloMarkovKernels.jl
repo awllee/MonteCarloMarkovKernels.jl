@@ -11,7 +11,8 @@ include("batchMeans.jl")
 include("spectralVariance.jl")
 include("visualize.jl")
 
-export simulateChain!, simulateChainProgress!,
+export simulateChain!, simulateChain,
+  simulateChainProgress!, simulateChainProgress,
   makeRWMKernel, makeAMKernel,
   estimateBM, estimateSV,
   kde

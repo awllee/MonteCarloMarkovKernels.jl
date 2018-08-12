@@ -23,11 +23,8 @@ function testd(d::Int64)
 
   logtarget = makelogMVN(SVector{d, Float64}(μ), SMatrix{d, d, Float64}(Σ))
 
-  niterations = d*2^21
-  chain = Vector{SVector{d, Float64}}(undef, niterations)
-
   P_AM = makeAMKernel(logtarget, d, Random.GLOBAL_RNG, d^2)
-  simulateChain!(chain, P_AM, Szerod)
+  chain = simulateChainProgress(P_AM, Szerod, d*2^21)
 
   @test maximum(abs.(mean(chain) - μ)) < 0.1
   @test maximum(abs.(MonteCarloMarkovKernels.cov(chain) - Σ)) < 0.1
@@ -51,8 +48,7 @@ A = randn(2, 2)
 Σ = A * A'
 logtarget = makelogMVN(SVector{2, Float64}(μ), SMatrix{2, 2, Float64}(Σ))
 P_AM = makeAMKernel(logtarget, 2, MersenneTwister(54321))
-chain = Vector{SVector{2, Float64}}(undef, 2^13)
 Random.seed!(1); v1 = rand(); Random.seed!(1)
-simulateChain!(chain, P_AM, Szero2)
+chain = simulateChain(P_AM, Szero2, 2^13)
 v2 = rand()
 @test v1 == v2

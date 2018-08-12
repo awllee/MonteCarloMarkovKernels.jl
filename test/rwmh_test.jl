@@ -8,7 +8,6 @@ zero2 = [0.0, 0.0]
 μ1 = [-1.0,0.0]
 Σ1 = [1.0 1.5 ; 1.5 3.0]
 propSigma = [2.0 1.2 ; 1.2 3.0]
-niterations = 2^15
 
 Szero2 = SVector{2, Float64}(zero2)
 SpropSigma = SMatrix{2, 2, Float64}(propSigma)
@@ -29,8 +28,7 @@ logtarget = makelogMVN(SVector{2, Float64}(μ1), SMatrix{2, 2, Float64}(Σ1))
 P_RWM = makeRWMKernel(logtarget, SpropSigma)
 
 seed!(12345)
-chain = Vector{SVector{2, Float64}}(undef, niterations)
-simulateChain!(chain, P_RWM, Szero2)
+chain = simulateChain(P_RWM, Szero2, 2^15)
 
 cc = MonteCarloMarkovKernels.cov(chain)
 
@@ -41,7 +39,6 @@ cc = MonteCarloMarkovKernels.cov(chain)
 ## test that only custom RNG is used
 Random.seed!(1); v1 = rand(); Random.seed!(1)
 P_RWM = makeRWMKernel(logtarget, SpropSigma, MersenneTwister(12345))
-chain = Vector{SVector{2, Float64}}(undef, 256)
-simulateChain!(chain, P_RWM, Szero2)
+chain = simulateChain(P_RWM, Szero2, 256)
 v2 = rand()
 @test v1 == v2
