@@ -21,21 +21,15 @@ end
 
 logtarget = makelogMVN(SVector{2, Float64}(μ1), SMatrix{2, 2, Float64}(Σ1))
 
-niterations = 2^20
-chain = Vector{SVector{2, Float64}}(undef, niterations)
-
 seed!(12345)
 
 P_AM = makeAMKernel(logtarget, 2)
-simulateChain!(chain, P_AM, Szero2)
+chain = simulateChain(P_AM, Szero2, 2^20)
 
 @test mean(chain) ≈ μ1 atol = 0.01
 @test MonteCarloMarkovKernels.cov(chain) ≈ Σ1 atol = 0.05
 
-vs = Vector{Vector{Float64}}(undef, 2)
-for i = 1:2
-  vs[i] = (x->x[i]).(chain)
-end
+vs = (i->(x->x[i]).(chain)).(1:2)
 
 d1(x) = 1/sqrt(2*π*Σ1[1,1])*exp(-1/2/Σ1[1,1]*(x-μ1[1])^2)
 d2(x) = 1/sqrt(2*π*Σ1[2,2])*exp(-1/2/Σ1[2,2]*(x-μ1[2])^2)
