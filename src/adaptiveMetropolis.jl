@@ -31,6 +31,7 @@ function makeAMKernel(logTargetDensity::F, Σ::SMatrix{d, d, Float64},
     end
     try
       A .= cholesky(S).L
+      any(isnan, A) && throw(DomainError()) # fix for not throwing exception
     catch e
       S .= Σ  * ϵ / calls.x
       A .= cholesky(S).L
