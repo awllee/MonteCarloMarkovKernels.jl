@@ -2,6 +2,7 @@ using MonteCarloMarkovKernels
 using StaticArrays
 import Statistics.mean
 using Random
+using LinearAlgebra
 using Test
 
 function makelogMVN(μ::SVector{d, Float64}, Σ::SMatrix{d, d, Float64}) where d
@@ -23,7 +24,8 @@ function testd(d::Int64)
 
   logtarget = makelogMVN(SVector{d, Float64}(μ), SMatrix{d, d, Float64}(Σ))
 
-  P_AM = makeAMKernel(logtarget, d, Random.GLOBAL_RNG, d^2)
+  # P_AM = makeAMKernel(logtarget, d, Random.GLOBAL_RNG, d^2)
+  P_AM = makeAMKernel(logtarget, Matrix{Float64}(I, d, d), Random.GLOBAL_RNG, d^2)
   chain = simulateChainProgress(P_AM, Szerod, d*2^21)
 
   @test maximum(abs.(mean(chain) - μ)) < 0.1
@@ -35,20 +37,8 @@ function testd(d::Int64)
 
 end
 
-seed!(12345)
+Random.seed!(12345)
 
 for d in 1:3
   testd(d)
 end
-
-## test that only custom RNG is used
-Szero2 = SVector{2, Float64}(zeros(2))
-μ = randn(2)
-A = randn(2, 2)
-Σ = A * A'
-logtarget = makelogMVN(SVector{2, Float64}(μ), SMatrix{2, 2, Float64}(Σ))
-P_AM = makeAMKernel(logtarget, 2, MersenneTwister(54321))
-Random.seed!(1); v1 = rand(); Random.seed!(1)
-chain = simulateChain(P_AM, Szero2, 2^13)
-v2 = rand()
-@test v1 == v2

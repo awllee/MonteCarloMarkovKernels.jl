@@ -13,6 +13,7 @@ end
 
 @testset "AM test" begin
   @time include("am_test.jl")
+  @time include("am_test2.jl")
 end
 
 @testset "Visualize test" begin
