@@ -1,6 +1,6 @@
 name = "MonteCarloMarkovKernels"
 uuid = "258d96c3-0b0c-5644-b641-119ebad15d7d"
-version = "2.0.0
+version = "2.0.0"
 
 [deps]
 KernelDensity = "5ab0869b-81aa-558d-bb23-cbf5423bbe9b"
